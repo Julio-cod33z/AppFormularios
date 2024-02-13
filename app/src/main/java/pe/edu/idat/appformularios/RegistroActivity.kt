@@ -7,7 +7,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
-import android.widget.Toast
+import pe.edu.idat.appformularios.comunes.AppMensaje
+import pe.edu.idat.appformularios.comunes.TipoMensaje
 import pe.edu.idat.appformularios.databinding.ActivityRegistroBinding
 
 class RegistroActivity : AppCompatActivity(), View.OnClickListener,
@@ -102,9 +103,17 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener,
     fun validarFormulario(): Boolean {
         var respuesta = false
         if(!validarNombreApellido()) {
-
+            AppMensaje.enviarMensaje(binding.root, "Ingrese nombre y apellido", TipoMensaje.ERROR)
+        } else if (!validarGenero()) {
+            AppMensaje.enviarMensaje(binding.root, "Seleccione su género", TipoMensaje.ERROR)
+        } else if (!validarPreferencias()) {
+            AppMensaje.enviarMensaje(binding.root, "Seleccione al menos una preferencia", TipoMensaje.ERROR)
+        } else if (!validarEstadoCivil()) {
+            AppMensaje.enviarMensaje(binding.root, "Seleccione su estado civil", TipoMensaje.ERROR)
+        } else {
+            respuesta = true
         }
-        return false
+        return respuesta
     }
 
     fun validarEstadoCivil(): Boolean {
@@ -113,7 +122,9 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener,
 
     fun validarPreferencias(): Boolean {
         var respuesta = false
-        if(binding.cbDeportes.isChecked || binding.cbMusica.isChecked || binding.cbOtros.isChecked) {
+        if(binding.cbDeportes.isChecked
+            || binding.cbMusica.isChecked
+            || binding.cbOtros.isChecked) {
             respuesta = true
         }
         return respuesta
