@@ -9,30 +9,34 @@ object AppMensaje {
 
     fun enviarMensaje(vista: View, mensaje: String, tipoMensaje: TipoMensaje) {
         val snackBar = Snackbar.make(vista, mensaje, Snackbar.LENGTH_LONG)
-        val snackBarView: View = snackBar.view
         if(tipoMensaje == TipoMensaje.ERROR) {
-            snackBarView.setBackgroundColor(
+            snackBar.setBackgroundTint(
                 ContextCompat.getColor(
                     MiApp.instance,
                     R.color.errorColor
                 )
             )
         } else if (tipoMensaje == TipoMensaje.SUCCESFULL) {
-            snackBarView.setBackgroundColor(
+            snackBar.setBackgroundTint(
                 ContextCompat.getColor(
                     MiApp.instance,
                     R.color.exitoColor
                 )
             )
         } else if (tipoMensaje == TipoMensaje.INFO) {
-            snackBarView.setBackgroundColor(
+            snackBar.setBackgroundTint(
                 ContextCompat.getColor(
                     MiApp.instance,
                     R.color.infoColor
                 )
             )
         } else {
-            snackBarView.setBackgroundColor(ContextCompat.getColor(MiApp.instance, R.color.advertenciaColor))
+            snackBar.setBackgroundTint(
+                ContextCompat.getColor(
+                    MiApp.instance,
+                    R.color.advertenciaColor
+                )
+            )
         }
         snackBar.show()
     }

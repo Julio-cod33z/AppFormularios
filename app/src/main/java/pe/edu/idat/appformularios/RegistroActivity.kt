@@ -3,6 +3,7 @@ package pe.edu.idat.appformularios
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -23,12 +24,16 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener,
         super.onCreate(savedInstanceState)
         binding = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.i("MensajeInfo", "¡App inicializa!")
         binding.btnRegistrar.setOnClickListener(this)
         binding.btnListar.setOnClickListener(this)
         ArrayAdapter.createFromResource(this, R.array.estado_civil, android.R.layout.simple_spinner_item)
             .also { adapter -> adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spEstadoCivil.adapter = adapter }
         binding.spEstadoCivil.onItemSelectedListener = this
+        binding.cbDeportes.setOnClickListener(this)
+        binding.cbMusica.setOnClickListener(this)
+        binding.cbOtros.setOnClickListener(this)
     }
 
     override fun onClick(vista: View) {
@@ -64,13 +69,21 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener,
             val infoPersona = binding.etNombres.text.toString() + " " +
                     binding.etApellidos.text.toString() + " " +
                     obtenerGeneroSeleccionado() + " " +
-                    listaPreferencias.toArray() + " " +
+                    obtenerPreferencias() + " " +
                     estadocivil + " " +
                     binding.swNotificacion.isChecked
             listaPersonas.add(infoPersona)
             AppMensaje.enviarMensaje(binding.root, getString(R.string.mensajeRegistroCorrecto), TipoMensaje.SUCCESFULL)
             setearControles()
         }
+    }
+
+    private fun obtenerPreferencias(): String {
+        var preferencias = ""
+        for(pref in listaPreferencias) {
+            preferencias += "$pref -"
+        }
+        return preferencias
     }
 
     private fun setearControles() {
